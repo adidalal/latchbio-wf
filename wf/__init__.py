@@ -92,7 +92,7 @@ metadata = LatchMetadata(
         email="null@example.com",
         github="https://github.com/adidalal",
     ),
-    repository="https://github.com/adidalal/placeholder",
+    repository="https://github.com/adidalal/latchbio-wf",
     license="",
     parameters={
         "input_file": LatchParameter(
@@ -111,5 +111,26 @@ metadata = LatchMetadata(
 
 @workflow(metadata)
 def run_image_processing(input_file: LatchFile, segmentation_type: SegmentationType) -> LatchFile:
+    """
+    This is a LatchBio workflow that is an implementation of the [Allen Cell & Structure Segmenter](https://www.allencell.org/segmenter.html) toolkit. The purpose of this library is to provide 3D segmentation of intracellular structures in fluorescence microscopy images.
+
+    While it is possible to provide the pre-processing, core segmentation algorithm and post-processing primitives directly to the user, it is not conducive to a smooth user workflow due to the large amount of experimental trial and error required.
+
+    Based on the current state of the art, a variety of [classic image segmentation workflows](https://www.allencell.org/segmenter.html#lookup-table) have been provided, for the user to select the one most similar to the input data's characteristics as a starting point.
+
+    **Note:** The underlying library supports both a classic image segmentation and an iterative deep learning workflow. In the current implementation, only the classic segmentation is supported.
+
+    ## Usage
+
+    See the "Parameters" tab. Briefly, there are a few components:
+
+    - Image upload - accepts any well-formatted TIFF file
+    - Selection of segmentation workflow - please see [this page](https://www.allencell.org/segmenter.html#lookup-table) for larger images and supplementary videos
+    - Additional options to tweak the segmentation parameters
+
+    The output will be your segmented image.
+
+    [More information](https://github.com/adidalal/latchbio-wf)
+    """
     processed_output = seg_task(input_file=input_file, segmentation_type=segmentation_type)
     return processed_output
